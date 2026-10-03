@@ -194,7 +194,7 @@ jobs:
                   new_seen.add(identifier)
                   sent += 1
 
-                  print(f"ALERTA ENVIADA: {identifier}")
+                  print(f"Alertas nuevas enviadas: {sent} | CAP XML encontrados: {len(urls)}")
 
               except Exception as e:
                   print(f"Error procesando {url}: {e}")
