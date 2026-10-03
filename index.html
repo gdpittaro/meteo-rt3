@@ -5,110 +5,631 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="METEO RT3">
+<meta name="theme-color" content="#07111f">
+
 <title>METEO RT3</title>
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b1220;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:760px;margin:auto;padding:22px 18px 35px}
-h1{font-size:30px;margin:0}
-.sub{color:#94a3b8;margin:5px 0 24px}
-h2{font-size:13px;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin:24px 0 10px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-a{min-height:88px;padding:16px 14px;border-radius:17px;text-decoration:none;color:white;background:#172033;display:flex;flex-direction:column;justify-content:center;font-weight:700;font-size:17px}
-a small{color:#aab5c5;font-size:11px;font-weight:400;margin-top:6px}
-.oficial{background:#14532d}
-.radar{background:#164e63}
-.app{background:#312e81}
-.agua{background:#1e3a5f}
-.note{background:#172033;border-radius:15px;padding:15px;line-height:1.55;color:#dbe4ef;font-size:14px}
-.foot{font-size:11px;color:#64748b;margin-top:22px}
+
+body{
+ margin:0;
+ background:#07111f;
+ color:#f8fafc;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+main{
+ max-width:850px;
+ margin:auto;
+ padding:18px 14px 40px;
+}
+
+header{
+ display:flex;
+ justify-content:space-between;
+ align-items:flex-start;
+ margin-bottom:16px;
+}
+
+h1{
+ margin:0;
+ font-size:30px;
+ letter-spacing:-.5px;
+}
+
+.sub{
+ color:#94a3b8;
+ font-size:13px;
+ margin-top:3px;
+}
+
+.clock{
+ text-align:right;
+ color:#cbd5e1;
+ font-size:13px;
+}
+
+.status{
+ border-radius:16px;
+ padding:14px 16px;
+ margin:12px 0;
+ background:#132033;
+ border:1px solid #26364c;
+}
+
+.status b{
+ display:block;
+ font-size:20px;
+ margin-bottom:4px;
+}
+
+.status small{
+ color:#94a3b8;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+
+.card{
+ background:#111d2d;
+ border:1px solid #223148;
+ border-radius:17px;
+ padding:15px;
+}
+
+.label{
+ color:#94a3b8;
+ font-size:12px;
+ text-transform:uppercase;
+ letter-spacing:.05em;
+}
+
+.value{
+ font-size:27px;
+ font-weight:700;
+ margin-top:5px;
+}
+
+.unit{
+ font-size:14px;
+ color:#94a3b8;
+ font-weight:400;
+}
+
+.big{
+ grid-column:span 2;
+}
+
+.wind{
+ font-size:22px;
+}
+
+.rain-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+}
+
+.rain{
+ background:#0d1929;
+ border-radius:13px;
+ padding:10px;
+ text-align:center;
+}
+
+.rain b{
+ display:block;
+ font-size:18px;
+}
+
+.rain span{
+ font-size:10px;
+ color:#94a3b8;
+}
+
+h2{
+ margin:24px 0 9px;
+ font-size:13px;
+ color:#94a3b8;
+ text-transform:uppercase;
+ letter-spacing:.08em;
+}
+
+.forecast{
+ display:flex;
+ gap:8px;
+ overflow-x:auto;
+ padding-bottom:4px;
+}
+
+.hour{
+ min-width:86px;
+ background:#111d2d;
+ border:1px solid #223148;
+ border-radius:14px;
+ padding:10px;
+ text-align:center;
+}
+
+.hour b{
+ display:block;
+ font-size:16px;
+ margin-bottom:5px;
+}
+
+.hour span{
+ display:block;
+ font-size:12px;
+ color:#cbd5e1;
+ margin-top:3px;
+}
+
+.links{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+}
+
+a{
+ display:block;
+ text-decoration:none;
+ color:white;
+ background:#17263a;
+ border:1px solid #263b56;
+ padding:14px;
+ border-radius:15px;
+ font-weight:650;
+}
+
+a small{
+ display:block;
+ color:#94a3b8;
+ font-size:11px;
+ font-weight:400;
+ margin-top:4px;
+}
+
+.official{
+ background:#123c2a;
+ border-color:#1e6a49;
+}
+
+.radar{
+ background:#10344a;
+ border-color:#1b5d78;
+}
+
+.water{
+ background:#102e4c;
+ border-color:#1b527c;
+}
+
+.note{
+ background:#111d2d;
+ border:1px solid #223148;
+ border-radius:15px;
+ padding:13px;
+ color:#cbd5e1;
+ font-size:12px;
+ line-height:1.5;
+}
+
+.update{
+ margin-top:18px;
+ color:#64748b;
+ font-size:11px;
+ text-align:center;
+}
+
+@media(max-width:500px){
+ .rain-grid{grid-template-columns:repeat(2,1fr)}
+ .value{font-size:24px}
+}
 </style>
 </head>
 
 <body>
+
 <main>
 
-<h1>METEO RT3</h1>
-<div class="sub">Centro de consulta meteorológica operativa · Río Tercero</div>
+<header>
+ <div>
+  <h1>METEO RT3</h1>
+  <div class="sub">Centro meteorológico operativo · Río Tercero</div>
+ </div>
+ <div class="clock" id="clock">--:--</div>
+</header>
 
-<h2>Fuentes oficiales</h2>
+<div class="status">
+ <b id="estado">CARGANDO...</b>
+ <small id="estadoTexto">Analizando condiciones meteorológicas</small>
+</div>
+
+<h2>Situación actual</h2>
 
 <div class="grid">
 
-<a class="oficial" href="https://www.smn.gob.ar/alertas" target="_blank" rel="noopener">
-🚨 Alertas SMN
-<small>Alertas oficiales y ACP</small>
-</a>
+ <div class="card">
+  <div class="label">Temperatura</div>
+  <div class="value"><span id="temp">--</span><span class="unit"> °C</span></div>
+ </div>
 
-<a class="radar" href="https://www.smn.gob.ar/radar" target="_blank" rel="noopener">
-📡 Radar SMN
-<small>Seguimiento de tormentas</small>
-</a>
+ <div class="card">
+  <div class="label">Humedad</div>
+  <div class="value"><span id="hum">--</span><span class="unit"> %</span></div>
+ </div>
 
-<a class="oficial" href="https://ohmc.ar/" target="_blank" rel="noopener">
-🌦️ OHMC Córdoba
-<small>Radar y estaciones</small>
-</a>
+ <div class="card">
+  <div class="label">Presión</div>
+  <div class="value"><span id="pres">--</span><span class="unit"> hPa</span></div>
+ </div>
 
-<a class="agua" href="https://www.aprhi.gob.ar/" target="_blank" rel="noopener">
-💧 APRHI
-<small>Recursos hídricos</small>
-</a>
+ <div class="card">
+  <div class="label">Sensación</div>
+  <div class="value"><span id="sens">--</span><span class="unit"> °C</span></div>
+ </div>
 
-<a class="agua" href="https://alerta.ina.gov.ar/" target="_blank" rel="noopener">
-🌊 INA
-<small>Información hidrológica</small>
-</a>
+ <div class="card big">
+  <div class="label">Viento</div>
+  <div class="value wind">
+   <span id="winddir">--</span>
+   <span id="windsector">--</span>
+   · <span id="wind">--</span> km/h
+  </div>
+  <div class="sub">
+   Ráfaga actual: <b id="gust">--</b> km/h
+  </div>
+ </div>
 
-<a href="https://www.smn.gob.ar/observaciones" target="_blank" rel="noopener">
-🌡️ Observaciones SMN
-<small>Datos meteorológicos</small>
-</a>
-
-</div>
-
-<h2>Apps de apoyo</h2>
-
-<div class="grid">
-
-<a class="app" href="https://app.rain-alarm.com/" target="_blank" rel="noopener">
-🌧️ Rain Alarm
-<small>Lluvia y radar</small>
-</a>
-
-<a class="app" href="https://www.ventusky.com/" target="_blank" rel="noopener">
-🌍 Ventusky
-<small>Mapas meteorológicos</small>
-</a>
-
-<a class="app" href="https://www.meteored.com.ar/" target="_blank" rel="noopener">
-☁️ Meteored
-<small>Pronóstico y alertas</small>
-</a>
+ <div class="card big">
+  <div class="label">Precipitación actual</div>
+  <div class="value"><span id="rainnow">--</span><span class="unit"> mm</span></div>
+ </div>
 
 </div>
 
-<h2>Rutina de 5 minutos</h2>
+<h2>Precipitación acumulada</h2>
+
+<div class="rain-grid">
+
+ <div class="rain">
+  <b id="r15">--</b>
+  <span>15 MIN</span>
+ </div>
+
+ <div class="rain">
+  <b id="r30">--</b>
+  <span>30 MIN</span>
+ </div>
+
+ <div class="rain">
+  <b id="r1">--</b>
+  <span>1 HORA</span>
+ </div>
+
+ <div class="rain">
+  <b id="r3">--</b>
+  <span>3 HORAS</span>
+ </div>
+
+ <div class="rain">
+  <b id="r6">--</b>
+  <span>6 HORAS</span>
+ </div>
+
+ <div class="rain">
+  <b id="r12">--</b>
+  <span>12 HORAS</span>
+ </div>
+
+ <div class="rain">
+  <b id="r24">--</b>
+  <span>24 HORAS</span>
+ </div>
+
+ <div class="rain">
+  <b id="intensity">--</b>
+  <span>INTENSIDAD mm/h</span>
+ </div>
+
+</div>
+
+<h2>Pronóstico próximas 12 horas</h2>
+
+<div class="forecast" id="forecast">
+ <div class="hour">Cargando...</div>
+</div>
+
+<h2>Estaciones y datos locales</h2>
+
+<div class="links">
+
+ <a class="official" href="https://clima.riotercero.gob.ar/" target="_blank">
+  Municipalidad de Río Tercero
+  <small>Estación meteorológica municipal</small>
+ </a>
+
+ <a href="https://www.omixom.com/servicios/" target="_blank">
+  Río 3 Agroindustrial
+  <small>OMIXOM · estaciones meteorológicas</small>
+ </a>
+
+ <a href="https://www.omixom.com/servicios/" target="_blank">
+  Estación del Puente
+  <small>OMIXOM · estaciones meteorológicas</small>
+ </a>
+
+ <a class="official" href="https://www.smn.gob.ar/observaciones" target="_blank">
+  Observaciones SMN
+  <small>Datos oficiales</small>
+ </a>
+
+</div>
+
+<h2>Alertas y vigilancia</h2>
+
+<div class="links">
+
+ <a class="official" href="https://ws2.smn.gob.ar/alertas_area?loc=852" target="_blank">
+  Alertas SMN
+  <small>Situación para el área</small>
+ </a>
+
+ <a class="official" href="https://ws2.smn.gob.ar/alertas" target="_blank">
+  Alertas nacionales
+  <small>Servicio Meteorológico Nacional</small>
+ </a>
+
+ <a class="radar" href="https://ws2.smn.gob.ar/radar" target="_blank">
+  Radar SMN
+  <small>Seguimiento de tormentas</small>
+ </a>
+
+ <a class="official" href="https://www.argentina.gob.ar/sinagir/alertas-vigentes" target="_blank">
+  SINAME / AFE
+  <small>Alertas oficiales</small>
+ </a>
+
+</div>
+
+<h2>Recursos hídricos</h2>
+
+<div class="links">
+
+ <a class="water" href="https://ohmc.ar/" target="_blank">
+  OHMC Córdoba
+  <small>Observatorio Hidro-Meteorológico</small>
+ </a>
+
+ <a class="water" href="https://www.aprhi.gob.ar/" target="_blank">
+  APRHI
+  <small>Recursos hídricos</small>
+ </a>
+
+ <a class="water" href="https://alerta.ina.gov.ar/" target="_blank">
+  INA
+  <small>Información hidrológica</small>
+ </a>
+
+ <a class="water" href="https://www.omixom.com/servicios/" target="_blank">
+  OMIXOM
+  <small>Estaciones y servicios meteorológicos</small>
+ </a>
+
+</div>
+
+<h2>Indicador operativo</h2>
 
 <div class="note">
-<b>1. SMN</b> → ¿Hay alerta y para cuándo?<br>
-<b>2. Radar</b> → ¿Dónde está y hacia dónde va?<br>
-<b>3. Estaciones</b> → Lluvia + viento + dirección.<br>
-<b>4. Evolución</b> → ¿Se intensifica o pierde fuerza?<br>
-<b>5. Impacto</b> → ¿Qué puede generar en la ciudad?
+El estado NORMAL / ATENCIÓN / PRECAUCIÓN / ALERTA es un indicador automático orientativo basado en viento, ráfagas y precipitación modelada. No reemplaza las alertas oficiales del SMN ni las mediciones de estaciones locales.
 </div>
 
-<h2>Datos operativos</h2>
-
-<div class="note">
-Alerta · fenómeno · vigencia · desplazamiento · precipitación · viento · dirección del viento · ráfagas · granizo · actividad eléctrica · situación hidrológica · impacto esperado.
-</div>
-
-<div class="foot">
-Las fuentes oficiales tienen prioridad para alertas y comunicaciones institucionales. Las aplicaciones son herramientas complementarias.
+<div class="update">
+Última actualización: <span id="updated">--</span><br>
+Actualización automática cada 5 minutos.
 </div>
 
 </main>
+
+<script>
+
+const LAT=-32.1731;
+const LON=-64.1140;
+
+const API=
+"https://api.open-meteo.com/v1/forecast"+
+"?latitude="+LAT+
+"&longitude="+LON+
+"&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m"+
+"&minutely_15=precipitation"+
+"&hourly=precipitation,wind_gusts_10m"+
+"&past_minutely_15=96"+
+"&forecast_minutely_15=48"+
+"&past_hours=24"+
+"&forecast_hours=24"+
+"&timezone=America%2FArgentina%2FCordoba";
+
+function $(id){
+ return document.getElementById(id);
+}
+
+function num(v){
+ return Number(v||0);
+}
+
+function fmt(v,d=1){
+ return Number.isFinite(v)?v.toFixed(d):"--";
+}
+
+function windSector(deg){
+
+ const sectors=[
+  "N","NE","E","SE","S","SW","W","NW"
+ ];
+
+ return sectors[
+  Math.round(deg/45)%8
+ ];
+}
+
+function sumLast(arr,n){
+
+ if(!arr || !arr.length) return 0;
+
+ return arr
+  .slice(Math.max(0,arr.length-n))
+  .reduce((a,b)=>a+num(b),0);
+}
+
+function setStatus(gust,rain1){
+
+ let estado="NORMAL";
+ let texto="Condiciones dentro de parámetros operativos habituales.";
+
+ if(gust>=100 || rain1>=30){
+  estado="ALERTA";
+  texto="Condiciones meteorológicas potencialmente severas.";
+ }
+ else if(gust>=80 || rain1>=15){
+  estado="PRECAUCIÓN";
+  texto="Se recomienda seguimiento operativo reforzado.";
+ }
+ else if(gust>=60 || rain1>=5){
+  estado="ATENCIÓN";
+  texto="Se recomienda vigilancia de la evolución.";
+ }
+
+ $("estado").textContent=estado;
+ $("estadoTexto").textContent=texto;
+}
+
+function renderForecast(data){
+
+ const box=$("forecast");
+ box.innerHTML="";
+
+ const times=data.hourly.time;
+ const rain=data.hourly.precipitation;
+ const gust=data.hourly.wind_gusts_10m;
+
+ const now=new Date();
+
+ let shown=0;
+
+ for(let i=0;i<times.length && shown<12;i++){
+
+  const t=new Date(times[i]);
+
+  if(t<now) continue;
+
+  const div=document.createElement("div");
+  div.className="hour";
+
+  const hora=t.toLocaleTimeString("es-AR",{
+   hour:"2-digit",
+   minute:"2-digit"
+  });
+
+  div.innerHTML=
+   "<b>"+hora+"</b>"+
+   "<span>"+fmt(num(rain[i]),1)+" mm</span>"+
+   "<span>Ráf. "+Math.round(num(gust[i]))+" km/h</span>";
+
+  box.appendChild(div);
+
+  shown++;
+ }
+}
+
+async function cargar(){
+
+ try{
+
+  const res=await fetch(API,{cache:"no-store"});
+
+  if(!res.ok) throw new Error("API");
+
+  const data=await res.json();
+
+  const c=data.current;
+
+  $("temp").textContent=fmt(c.temperature_2m,1);
+  $("hum").textContent=Math.round(num(c.relative_humidity_2m));
+  $("pres").textContent=Math.round(num(c.pressure_msl));
+  $("sens").textContent=fmt(c.apparent_temperature,1);
+
+  $("wind").textContent=Math.round(num(c.wind_speed_10m));
+  $("winddir").textContent=Math.round(num(c.wind_direction_10m))+"°";
+  $("windsector").textContent=windSector(num(c.wind_direction_10m));
+  $("gust").textContent=Math.round(num(c.wind_gusts_10m));
+
+  $("rainnow").textContent=fmt(c.precipitation,1);
+
+  const p=data.minutely_15.precipitation;
+
+  const r15=sumLast(p,1);
+  const r30=sumLast(p,2);
+  const r1=sumLast(p,4);
+  const r3=sumLast(p,12);
+  const r6=sumLast(p,24);
+  const r12=sumLast(p,48);
+  const r24=sumLast(p,96);
+
+  $("r15").textContent=fmt(r15,1);
+  $("r30").textContent=fmt(r30,1);
+  $("r1").textContent=fmt(r1,1);
+  $("r3").textContent=fmt(r3,1);
+  $("r6").textContent=fmt(r6,1);
+  $("r12").textContent=fmt(r12,1);
+  $("r24").textContent=fmt(r24,1);
+
+  $("intensity").textContent=fmt(r1,1);
+
+  setStatus(
+   num(c.wind_gusts_10m),
+   r1
+  );
+
+  renderForecast(data);
+
+  $("updated").textContent=
+   new Date().toLocaleTimeString("es-AR",{
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit"
+   });
+
+ }catch(e){
+
+  $("estado").textContent="SIN DATOS";
+  $("estadoTexto").textContent=
+   "No se pudo actualizar la información automática.";
+
+ }
+
+}
+
+function reloj(){
+
+ $("clock").textContent=
+  new Date().toLocaleTimeString("es-AR",{
+   hour:"2-digit",
+   minute:"2-digit"
+  });
+
+}
+
+reloj();
+setInterval(reloj,1000);
+
+cargar();
+setInterval(cargar,300000);
+
+</script>
+
 </body>
 </html>
