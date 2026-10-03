@@ -1,1 +1,354 @@
+name: Alertas SMN - METEO RT3
 
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  alertas:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Consultar alertas oficiales del SMN
+        env:
+          NTFY_TOPIC: meteo-rt3-alertas-7k9p2x
+        run: |
+          python3 <<'PY'
+          import os
+          import json
+          import urllib.request
+          import urllib.error
+
+          TOPIC = os.environ["NTFY_TOPIC"]
+          STATE_FILE = ".github/smn-seen.json"
+
+          API_URLS = [
+              "https://ws.smn.gob.ar/alerts/type/AL",
+              "https://ws.smn.gob.ar/alerts/type/AC",
+          ]
+
+          def get_json(url):
+              req = urllib.request.Request(
+                  url,
+                  headers={
+                      "User-Agent": "METEO-RT3/1.0",
+                      "Accept": "application/json",
+                  },
+              )
+
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      raw = r.read()
+                      print(
+                          f"SMN {url} -> HTTP {r.status}, "
+                          f"bytes={len(raw)}"
+                      )
+                      return json.loads(
+                          raw.decode("utf-8", errors="replace")
+                      )
+
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode(
+                      "utf-8", errors="replace"
+                  )[:300]
+
+                  print(
+                      f"SMN {url} -> HTTP ERROR "
+                      f"{e.code}: {body}"
+                  )
+
+              except Exception as e:
+                  print(
+                      f"SMN {url} -> ERROR: {e}"
+                  )
+
+              return []
+
+          def text(value):
+              if isinstance(value, str):
+                  return value
+
+              if isinstance(value, list):
+                  return " ".join(
+                      text(x) for x in value
+                  )
+
+              if isinstance(value, dict):
+                  return " ".join(
+                      text(x) for x in value.values()
+                  )
+
+              if value is None:
+                  return ""
+
+              return str(value)
+
+          def pick(data, *keys):
+              for key in keys:
+                  if (
+                      key in data
+                      and data[key] not in (
+                          None,
+                          "",
+                          [],
+                          {}
+                      )
+                  ):
+                      return text(data[key])
+
+              return ""
+
+          def matches_area(data):
+              blob = " ".join([
+                  pick(
+                      data,
+                      "zones",
+                      "zone",
+                      "areaDesc",
+                      "areas",
+                      "area",
+                      "department",
+                      "departments"
+                  ),
+                  pick(
+                      data,
+                      "title",
+                      "headline",
+                      "description",
+                      "descripcion"
+                  ),
+              ]).lower()
+
+              return any(
+                  term in blob
+                  for term in [
+                      "río tercero",
+                      "rio tercero",
+                      "tercero arriba",
+                  ]
+              )
+
+          try:
+              with open(
+                  STATE_FILE,
+                  "r",
+                  encoding="utf-8"
+              ) as f:
+                  seen = set(json.load(f))
+
+          except Exception:
+              seen = set()
+
+          new_seen = set(seen)
+          sent = 0
+          total = 0
+
+          for api in API_URLS:
+
+              data = get_json(api)
+
+              if isinstance(data, list):
+                  records = data
+
+              elif isinstance(data, dict):
+                  records = data.get(
+                      "data",
+                      []
+                  )
+
+              else:
+                  records = []
+
+              print(
+                  f"Registros recibidos de "
+                  f"{api}: {len(records)}"
+              )
+
+              total += len(records)
+
+              for item in records:
+
+                  if (
+                      not isinstance(item, dict)
+                      or not matches_area(item)
+                  ):
+                      continue
+
+                  identifier = pick(
+                      item,
+                      "id",
+                      "identifier",
+                      "uid",
+                      "uuid"
+                  )
+
+                  if not identifier:
+                      identifier = "|".join([
+                          pick(
+                              item,
+                              "title",
+                              "headline"
+                          ),
+                          pick(
+                              item,
+                              "date",
+                              "pubDate",
+                              "effective",
+                              "from"
+                          ),
+                          pick(
+                              item,
+                              "zones",
+                              "zone",
+                              "areaDesc"
+                          ),
+                      ])
+
+                  if (
+                      not identifier
+                      or identifier in seen
+                  ):
+                      continue
+
+                  event = pick(
+                      item,
+                      "event",
+                      "phenomenon",
+                      "type",
+                      "tipo",
+                      "title",
+                      "headline"
+                  ) or "Alerta meteorológica"
+
+                  level = pick(
+                      item,
+                      "level",
+                      "nivel",
+                      "severity",
+                      "color"
+                  ) or "No especificado"
+
+                  description = pick(
+                      item,
+                      "description",
+                      "descripcion",
+                      "text",
+                      "detail"
+                  ) or (
+                      "Consultar información "
+                      "oficial del SMN."
+                  )
+
+                  valid_from = pick(
+                      item,
+                      "from",
+                      "effective",
+                      "onset",
+                      "date",
+                      "pubDate"
+                  )
+
+                  valid_to = pick(
+                      item,
+                      "to",
+                      "expires",
+                      "expiration"
+                  )
+
+                  zones = pick(
+                      item,
+                      "zones",
+                      "zone",
+                      "areaDesc",
+                      "areas",
+                      "area"
+                  )
+
+                  message = (
+                      "RÍO TERCERO\n\n"
+                      f"Evento: {event}\n"
+                      f"Nivel: {level}\n"
+                      f"Inicio: "
+                      f"{valid_from or 'No especificado'}\n"
+                      f"Vencimiento: "
+                      f"{valid_to or 'No especificado'}\n"
+                      f"Zona: "
+                      f"{zones or 'No especificada'}\n\n"
+                      f"{description.strip()}"
+                  )
+
+                  req = urllib.request.Request(
+                      f"https://ntfy.sh/{TOPIC}",
+                      data=message.encode("utf-8"),
+                      method="POST",
+                      headers={
+                          "Title": f"SMN | {event}",
+                          "Priority": "high",
+                          "Tags": "warning",
+                          "Click":
+                              "https://www.smn.gob.ar/alertas",
+                      },
+                  )
+
+                  try:
+
+                      with urllib.request.urlopen(
+                          req,
+                          timeout=30
+                      ) as r:
+                          print(
+                              f"ntfy -> HTTP {r.status}"
+                          )
+
+                      new_seen.add(identifier)
+                      sent += 1
+
+                  except Exception as e:
+                      print(
+                          f"ntfy ERROR: {e}"
+                      )
+
+          os.makedirs(
+              ".github",
+              exist_ok=True
+          )
+
+          with open(
+              STATE_FILE,
+              "w",
+              encoding="utf-8"
+          ) as f:
+              json.dump(
+                  list(new_seen)[-300:],
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+
+          print(
+              f"TOTAL registros SMN: {total}"
+          )
+
+          print(
+              f"Alertas nuevas enviadas: {sent}"
+          )
+          PY
+
+      - name: Guardar estado de alertas
+        run: |
+          git config user.name "METEO RT3"
+          git config user.email "meteo-rt3@users.noreply.github.com"
+
+          git add .github/smn-seen.json
+
+          git diff --cached --quiet || \
+            git commit -m "Actualiza estado de alertas SMN"
+
+          git push
