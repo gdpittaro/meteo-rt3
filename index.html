@@ -6,20 +6,26 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="METEO RT3">
 <title>METEO RT3</title>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#0b1220;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 main{max-width:760px;margin:auto;padding:22px 18px 35px}
-h1{font-size:30px;margin:0}.sub{color:#94a3b8;margin:5px 0 24px}
+h1{font-size:30px;margin:0}
+.sub{color:#94a3b8;margin:5px 0 24px}
 h2{font-size:13px;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin:24px 0 10px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 a{min-height:88px;padding:16px 14px;border-radius:17px;text-decoration:none;color:white;background:#172033;display:flex;flex-direction:column;justify-content:center;font-weight:700;font-size:17px}
 a small{color:#aab5c5;font-size:11px;font-weight:400;margin-top:6px}
-.oficial{background:#14532d}.radar{background:#164e63}.app{background:#312e81}.agua{background:#1e3a5f}
+.oficial{background:#14532d}
+.radar{background:#164e63}
+.app{background:#312e81}
+.agua{background:#1e3a5f}
 .note{background:#172033;border-radius:15px;padding:15px;line-height:1.55;color:#dbe4ef;font-size:14px}
 .foot{font-size:11px;color:#64748b;margin-top:22px}
 </style>
 </head>
+
 <body>
 <main>
 
@@ -27,23 +33,64 @@ a small{color:#aab5c5;font-size:11px;font-weight:400;margin-top:6px}
 <div class="sub">Centro de consulta meteorológica operativa · Río Tercero</div>
 
 <h2>Fuentes oficiales</h2>
+
 <div class="grid">
-<a class="oficial" href="https://www.smn.gob.ar/alertas">🚨 Alertas SMN<small>Alertas oficiales y ACP</small></a>
-<a class="radar" href="https://ws2.smn.gob.ar/radar">📡 Radar SMN<small>Seguimiento de tormentas</small></a>
-<a class="oficial" href="https://ohmc.ar/">🌦️ OHMC Córdoba<small>Radar y estaciones</small></a>
-<a class="agua" href="https://www.aprhi.gob.ar/">💧 APRHI<small>Recursos hídricos</small></a>
-<a class="agua" href="https://alerta.ina.gov.ar/">🌊 INA<small>Información hidrológica</small></a>
-<a href="https://ws2.smn.gob.ar/observaciones">🌡️ Observaciones SMN<small>Datos meteorológicos</small></a>
+
+<a class="oficial" href="https://www.smn.gob.ar/alertas" target="_blank" rel="noopener">
+🚨 Alertas SMN
+<small>Alertas oficiales y ACP</small>
+</a>
+
+<a class="radar" href="https://www.smn.gob.ar/radar" target="_blank" rel="noopener">
+📡 Radar SMN
+<small>Seguimiento de tormentas</small>
+</a>
+
+<a class="oficial" href="https://ohmc.ar/" target="_blank" rel="noopener">
+🌦️ OHMC Córdoba
+<small>Radar y estaciones</small>
+</a>
+
+<a class="agua" href="https://www.aprhi.gob.ar/" target="_blank" rel="noopener">
+💧 APRHI
+<small>Recursos hídricos</small>
+</a>
+
+<a class="agua" href="https://alerta.ina.gov.ar/" target="_blank" rel="noopener">
+🌊 INA
+<small>Información hidrológica</small>
+</a>
+
+<a href="https://www.smn.gob.ar/observaciones" target="_blank" rel="noopener">
+🌡️ Observaciones SMN
+<small>Datos meteorológicos</small>
+</a>
+
 </div>
 
 <h2>Apps de apoyo</h2>
+
 <div class="grid">
-<a class="app" href="https://app.rain-alarm.com/">🌧️ Rain Alarm<small>Lluvia y radar</small></a>
-<a class="app" href="https://www.ventusky.com/">🌍 Ventusky<small>Mapas meteorológicos</small></a>
-<a class="app" href="https://www.meteored.com.ar/">☁️ Meteored<small>Pronóstico y alertas</small></a>
+
+<a class="app" href="https://app.rain-alarm.com/" target="_blank" rel="noopener">
+🌧️ Rain Alarm
+<small>Lluvia y radar</small>
+</a>
+
+<a class="app" href="https://www.ventusky.com/" target="_blank" rel="noopener">
+🌍 Ventusky
+<small>Mapas meteorológicos</small>
+</a>
+
+<a class="app" href="https://www.meteored.com.ar/" target="_blank" rel="noopener">
+☁️ Meteored
+<small>Pronóstico y alertas</small>
+</a>
+
 </div>
 
 <h2>Rutina de 5 minutos</h2>
+
 <div class="note">
 <b>1. SMN</b> → ¿Hay alerta y para cuándo?<br>
 <b>2. Radar</b> → ¿Dónde está y hacia dónde va?<br>
@@ -53,6 +100,7 @@ a small{color:#aab5c5;font-size:11px;font-weight:400;margin-top:6px}
 </div>
 
 <h2>Datos operativos</h2>
+
 <div class="note">
 Alerta · fenómeno · vigencia · desplazamiento · precipitación · viento · dirección del viento · ráfagas · granizo · actividad eléctrica · situación hidrológica · impacto esperado.
 </div>
