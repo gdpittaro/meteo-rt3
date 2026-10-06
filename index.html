@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#07111f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="METEO RT3">
-<title>METEO RT3</title>
+<title>METEO RT3 · Río Tercero</title>
 
 <style>
 *{box-sizing:border-box}
@@ -62,7 +62,13 @@ button{
  background:#12243b;
  color:white;
  border-radius:9px;
- padding:8px 11px
+ padding:8px 11px;
+ cursor:pointer
+}
+
+button:disabled{
+ opacity:.6;
+ cursor:wait
 }
 
 h2{
@@ -122,6 +128,12 @@ a{
  margin-top:12px
 }
 
+footer{
+ color:#61758e;
+ font-size:10px;
+ margin-top:24px
+}
+
 @media(max-width:650px){
  .grid3{grid-template-columns:1fr 1fr}
  .forecast{grid-template-columns:repeat(3,1fr)}
@@ -149,6 +161,7 @@ Centro operativo meteorológico · Río Tercero
 <div id="clock">--:--</div>
 </header>
 
+
 <div class="status">
 
 <b>
@@ -156,7 +169,9 @@ ESTADO:
 <span id="state">CARGANDO</span>
 </b>
 
-<button onclick="loadWeather()">Actualizar</button>
+<button id="refreshBtn" type="button">
+Actualizar
+</button>
 
 <br>
 
@@ -165,6 +180,7 @@ Consultando datos…
 </small>
 
 </div>
+
 
 <h2>Condiciones actuales</h2>
 
@@ -187,7 +203,8 @@ Consultando datos…
 
 <a class="card"
 href="https://clima.riotercero.gob.ar/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Municipalidad</b>
 
@@ -200,7 +217,8 @@ Estación meteorológica municipal
 
 <a class="card"
 href="https://www.omixom.com/servicios/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Río 3 Agroindustrial</b>
 
@@ -213,7 +231,8 @@ OMIXOM · estación local
 
 <a class="card"
 href="https://www.omixom.com/servicios/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Estación del Puente</b>
 
@@ -232,7 +251,8 @@ OMIXOM · estación local
 
 <a class="card"
 href="https://ws2.smn.gob.ar/alertas_area?loc=852"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Alertas SMN</b>
 
@@ -245,7 +265,8 @@ Río Tercero · área 852
 
 <a class="card"
 href="https://ws2.smn.gob.ar/avisos_a_muy_corto_plazo"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>ACP</b>
 
@@ -258,7 +279,8 @@ Avisos a muy corto plazo
 
 <a class="card"
 href="https://ws2.smn.gob.ar/advertencias"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Advertencias</b>
 
@@ -271,7 +293,8 @@ Fenómenos meteorológicos
 
 <a class="card"
 href="https://ws2.smn.gob.ar/resumen_por_provincia"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Córdoba</b>
 
@@ -284,7 +307,8 @@ Alertas por provincia
 
 <a class="card"
 href="https://ws2.smn.gob.ar/radar"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Radar SMN</b>
 
@@ -297,7 +321,8 @@ Radar y mosaico
 
 <a class="card"
 href="https://ws2.smn.gob.ar/observaciones"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>Observaciones SMN</b>
 
@@ -310,102 +335,47 @@ Datos actuales
 </div>
 
 
-<h2>Radar · lluvia en tiempo real</h2>
+<h2>Aplicaciones iPhone</h2>
 
 <div class="grid">
 
 <a class="card"
-href="https://www.rain-alarm.com/"
-target="_blank">
+href="https://apps.apple.com/ar/app/alarma-de-lluvia-radar-meteo/id397676100"
+target="_blank"
+rel="noopener">
 
 <b>Rain Alarm</b>
 
 <small>
-Seguimiento de lluvia
+Aplicación oficial · App Store
 </small>
 
 </a>
 
 
 <a class="card"
-href="https://app.rain-alarm.com/"
-target="_blank">
-
-<b>Rain Alarm Web App</b>
-
-<small>
-Versión web / móvil
-</small>
-
-</a>
-
-
-<a class="card"
-href="https://www.meteored.com.ar/radar/"
-target="_blank">
-
-<b>Meteored Radar</b>
-
-<small>
-Radar de precipitación
-</small>
-
-</a>
-
-
-<a class="card"
-href="https://www.ventusky.com/es/radar-mapa"
-target="_blank">
-
-<b>Ventusky Radar</b>
-
-<small>
-Radar y capas
-</small>
-
-</a>
-
-</div>
-
-
-<h2>Mapas y pronóstico</h2>
-
-<div class="grid">
-
-<a class="card"
-href="https://www.ventusky.com/es/"
-target="_blank">
+href="https://apps.apple.com/ar/app/ventusky-tiempo-radar/id1280984498"
+target="_blank"
+rel="noopener">
 
 <b>Ventusky</b>
 
 <small>
-Viento · ráfagas · lluvia · modelos
+Aplicación oficial · App Store
 </small>
 
 </a>
 
 
 <a class="card"
-href="https://www.meteored.com.ar/"
-target="_blank">
+href="https://apps.apple.com/ar/app/clima-el-tiempo-por-meteored/id543364901"
+target="_blank"
+rel="noopener">
 
 <b>Meteored</b>
 
 <small>
-Pronóstico y mapas
-</small>
-
-</a>
-
-
-<a class="card"
-href="https://www.meteored.com.ar/mapas-meteorologicos/"
-target="_blank">
-
-<b>Meteored Mapas</b>
-
-<small>
-Precipitación · viento · modelos
+Aplicación oficial · App Store
 </small>
 
 </a>
@@ -413,7 +383,8 @@ Precipitación · viento · modelos
 
 <a class="card"
 href="https://www.argentina.gob.ar/aplicaciones/smn-tiempo-y-pronostico"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>App SMN</b>
 
@@ -426,18 +397,123 @@ Pronóstico y alertas oficiales
 </div>
 
 
-<h2>Monitoreo hídrico</h2>
+<h2>Portales web · radar y mapas</h2>
+
+<div class="grid">
+
+<a class="card"
+href="https://www.rain-alarm.com/"
+target="_blank"
+rel="noopener">
+
+<b>Rain Alarm Web</b>
+
+<small>
+Seguimiento de lluvia · portal web
+</small>
+
+</a>
+
+
+<a class="card"
+href="https://app.rain-alarm.com/"
+target="_blank"
+rel="noopener">
+
+<b>Rain Alarm Web App</b>
+
+<small>
+Versión web / móvil
+</small>
+
+</a>
+
+
+<a class="card"
+href="https://www.meteored.com.ar/radar/"
+target="_blank"
+rel="noopener">
+
+<b>Meteored Radar</b>
+
+<small>
+Radar de precipitación
+</small>
+
+</a>
+
+
+<a class="card"
+href="https://www.ventusky.com/es/radar-mapa"
+target="_blank"
+rel="noopener">
+
+<b>Ventusky Radar</b>
+
+<small>
+Radar y capas meteorológicas
+</small>
+
+</a>
+
+
+<a class="card"
+href="https://www.ventusky.com/es/"
+target="_blank"
+rel="noopener">
+
+<b>Ventusky Web</b>
+
+<small>
+Viento · ráfagas · lluvia · presión · modelos
+</small>
+
+</a>
+
+
+<a class="card"
+href="https://www.meteored.com.ar/"
+target="_blank"
+rel="noopener">
+
+<b>Meteored Web</b>
+
+<small>
+Pronóstico y mapas
+</small>
+
+</a>
+
+
+<a class="card"
+href="https://www.meteored.com.ar/mapas-meteorologicos/"
+target="_blank"
+rel="noopener">
+
+<b>Meteored Mapas</b>
+
+<small>
+Precipitación · viento · ráfagas · modelos
+</small>
+
+</a>
+
+</div>
+
+
+<h2>Monitoreo hídrico y Córdoba</h2>
 
 <div class="grid">
 
 <a class="card"
 href="https://ohmc.ar/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>OHMC</b>
 
 <small>
-Observatorio Hidrometeorológico
+Observatorio Hidrometeorológico de Córdoba
 </small>
 
 </a>
@@ -445,12 +521,13 @@ Observatorio Hidrometeorológico
 
 <a class="card"
 href="https://www.aprhi.gob.ar/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>APRHI</b>
 
 <small>
-Recursos hídricos
+Recursos hídricos de Córdoba
 </small>
 
 </a>
@@ -458,12 +535,13 @@ Recursos hídricos
 
 <a class="card"
 href="https://alerta.ina.gov.ar/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>INA · SIyAH</b>
 
 <small>
-Información hidrológica
+Información hidrológica y pluviométrica
 </small>
 
 </a>
@@ -471,7 +549,8 @@ Información hidrológica
 
 <a class="card"
 href="https://www.argentina.gob.ar/sinagir/alertas-vigentes"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>SINAME / AFE</b>
 
@@ -484,12 +563,13 @@ Alertas vigentes
 
 <a class="card"
 href="https://www.omixom.com/servicios/"
-target="_blank">
+target="_blank"
+rel="noopener">
 
 <b>OMIXOM</b>
 
 <small>
-Red de estaciones
+Red de estaciones meteorológicas
 </small>
 
 </a>
@@ -507,12 +587,17 @@ La integración directa de OMIXOM queda pendiente de un endpoint público verifi
 
 </p>
 
+
+<footer>
+METEO RT3 · Río Tercero · actualización automática cada 5 minutos.
+</footer>
+
 </main>
 
 
 <script>
 
-var D=[
+const DIR = [
 "N","NNE","NE","ENE",
 "E","ESE","SE","SSE",
 "S","SSO","SO","OSO",
@@ -520,113 +605,166 @@ var D=[
 ];
 
 
-function $(x){
-return document.getElementById(x)
+function $(id){
+return document.getElementById(id);
 }
 
 
-function fmt(v,d){
-return v==null||isNaN(v)
-?"—"
-:Number(v).toFixed(d||1)
+function fmt(value, decimals = 1){
+
+if(
+value === null ||
+value === undefined ||
+Number.isNaN(Number(value))
+){
+return "—";
+}
+
+return Number(value).toFixed(decimals);
+
 }
 
 
 function clock(){
 
-$("clock").textContent=
+$("clock").textContent =
 new Date().toLocaleString(
 "es-AR",
 {
 dateStyle:"short",
 timeStyle:"short"
 }
-)
+);
 
 }
 
 setInterval(clock,1000);
-
 clock();
 
 
 async function loadWeather(){
 
+const button = $("refreshBtn");
+
+button.disabled = true;
+button.textContent = "Actualizando…";
+
+$("state").textContent = "ACTUALIZANDO";
+$("updated").textContent = "Consultando Open-Meteo…";
+
+
 try{
 
-var u=
-"https://api.open-meteo.com/v1/forecast"+
-"?latitude=-32.1731"+
-"&longitude=-64.114"+
-"&current="+
-"temperature_2m,"+
-"relative_humidity_2m,"+
-"apparent_temperature,"+
-"precipitation,"+
-"pressure_msl,"+
-"wind_speed_10m,"+
-"wind_direction_10m,"+
-"wind_gusts_10m"+
-"&hourly=precipitation,wind_gusts_10m"+
-"&past_hours=24"+
-"&forecast_hours=12"+
+const url =
+"https://api.open-meteo.com/v1/forecast" +
+"?latitude=-32.1731" +
+"&longitude=-64.114" +
+"&current=" +
+"temperature_2m," +
+"relative_humidity_2m," +
+"apparent_temperature," +
+"precipitation," +
+"pressure_msl," +
+"wind_speed_10m," +
+"wind_direction_10m," +
+"wind_gusts_10m" +
+"&hourly=precipitation,wind_gusts_10m" +
+"&past_hours=24" +
+"&forecast_hours=12" +
 "&timezone=America%2FArgentina%2FCordoba";
 
 
-var d=
-await(
+const response =
 await fetch(
-u,
-{cache:"no-store"}
-)
-).json();
-
-
-var c=d.current;
-
-var h=d.hourly;
-
-var now=
-new Date(c.time).getTime();
-
-
-function sum(n){
-
-return h.precipitation.reduce(
-function(s,v,i){
-
-var dt=
-now-
-new Date(h.time[i]).getTime();
-
-return
-dt>=0 &&
-dt<=n*3600000
-?
-s+Number(v||0)
-:
-s
-
-},
-0
-)
-
-}
-
-
-var g=
-h.wind_gusts_10m.filter(
-function(v){
-return v!=null
+url,
+{
+cache:"no-store"
 }
 );
 
 
-var mx=
-Math.max.apply(null,g);
+if(!response.ok){
+
+throw new Error(
+"HTTP "+response.status
+);
+
+}
 
 
-var a=[
+const data =
+await response.json();
+
+
+if(
+!data.current ||
+!data.hourly
+){
+
+throw new Error(
+"Respuesta meteorológica incompleta"
+);
+
+}
+
+
+const c = data.current;
+const h = data.hourly;
+
+const now =
+new Date(c.time).getTime();
+
+
+function sum(hours){
+
+return h.precipitation.reduce(
+(s,value,index)=>{
+
+const dt =
+now -
+new Date(h.time[index]).getTime();
+
+if(
+dt >= 0 &&
+dt <= hours * 3600000
+){
+
+return s + Number(value || 0);
+
+}
+
+return s;
+
+},
+0
+);
+
+}
+
+
+const gusts =
+h.wind_gusts_10m.filter(
+value => value !== null
+);
+
+
+const maxGust =
+gusts.length
+? Math.max(...gusts)
+: null;
+
+
+const windDirection =
+c.wind_direction_10m == null
+? "—"
+: DIR[
+Math.round(
+c.wind_direction_10m / 22.5
+) % 16
+];
+
+
+const current = [
 
 [
 "Temperatura",
@@ -650,11 +788,7 @@ fmt(c.pressure_msl,0)+" hPa",
 [
 "Viento",
 fmt(c.wind_speed_10m,0)+" km/h",
-D[
-Math.round(
-c.wind_direction_10m/22.5
-)%16
-]+
+windDirection+
 " · "+
 fmt(c.wind_direction_10m,0)+"°"
 ],
@@ -667,7 +801,7 @@ fmt(c.wind_gusts_10m,0)+" km/h",
 
 [
 "Ráfaga máxima 24 h",
-fmt(mx,0)+" km/h",
+fmt(maxGust,0)+" km/h",
 ""
 ],
 
@@ -679,32 +813,33 @@ fmt(sum(1))+" mm",
 
 [
 "Intensidad",
-fmt(sum(.25)*4)+" mm/h",
+fmt(sum(0.25)*4)+" mm/h",
 "Estimación 15 min"
 ]
 
 ];
 
 
-$("current").innerHTML=
-a.map(
-function(x){
+$("current").innerHTML =
+current.map(
+item => {
 
-return
-"<div class=\"card\">"+
-"<small>"+x[0]+"</small>"+
-"<strong>"+x[1]+"</strong>"+
-"<small>"+x[2]+"</small>"+
-"</div>"
+return `
+<div class="card">
+<small>${item[0]}</small>
+<strong>${item[1]}</strong>
+<small>${item[2]}</small>
+</div>
+`;
 
 }
 ).join("");
 
 
-var p=[
+const periods = [
 
-["15 min",.25],
-["30 min",.5],
+["15 min",0.25],
+["30 min",0.5],
 ["1 hora",1],
 ["3 horas",3],
 ["6 horas",6],
@@ -714,53 +849,54 @@ var p=[
 ];
 
 
-$("rain").innerHTML=
-p.map(
-function(x){
+$("rain").innerHTML =
+periods.map(
+period => {
 
-return
-"<div class=\"card\">"+
-"<b>"+x[0]+"</b>"+
-"<strong>"+
-fmt(sum(x[1]))+
-" mm</strong>"+
-"<small>acumulado</small>"+
-"</div>"
+return `
+<div class="card">
+<b>${period[0]}</b>
+<strong>${fmt(sum(period[1]))} mm</strong>
+<small>acumulado</small>
+</div>
+`;
 
 }
 ).join("");
 
 
-$("forecast").innerHTML=
+$("forecast").innerHTML =
 h.time
 .slice(0,12)
 .map(
-function(t,i){
+(time,index) => {
 
-return
-"<div class=\"fc\">"+
-"<b>"+
-new Date(t)
+const hour =
+new Date(time)
 .toLocaleTimeString(
 "es-AR",
 {
 hour:"2-digit",
 minute:"2-digit"
 }
-)+
-"</b>"+
-fmt(h.precipitation[i])+
-" mm</div>"
+);
+
+return `
+<div class="fc">
+<b>${hour}</b>
+${fmt(h.precipitation[index])} mm
+</div>
+`;
 
 }
 ).join("");
 
 
-$("state").textContent=
+$("state").textContent =
 "DATOS DISPONIBLES";
 
 
-$("updated").textContent=
+$("updated").textContent =
 "Actualizado "+
 new Date()
 .toLocaleTimeString(
@@ -773,21 +909,46 @@ minute:"2-digit"
 
 
 }
-catch(e){
+catch(error){
 
-$("state").textContent=
+console.error(
+"METEO RT3:",
+error
+);
+
+
+$("state").textContent =
 "SIN DATOS";
 
-$("updated").textContent=
-"No se pudo consultar la fuente automática"
+
+$("updated").textContent =
+"No se pudo consultar Open-Meteo";
+
+
+}
+finally{
+
+button.disabled = false;
+button.textContent = "Actualizar";
 
 }
 
 }
 
 
+/* Botón Actualizar */
+$("refreshBtn")
+.addEventListener(
+"click",
+loadWeather
+);
+
+
+/* Primera consulta */
 loadWeather();
 
+
+/* Actualización automática cada 5 minutos */
 setInterval(
 loadWeather,
 300000
